@@ -1,15 +1,14 @@
-import { Controller, Get, UsePipes, ParseIntPipe, Query } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { BlogService } from "./blog.service";
-import { UrlQuery } from "./dto/query.dto";
-import { DemoPipe } from "./pipes/demo.pipe";
+import { IndexArticleItem } from "./dto/ajax.dto";
 
 @Controller('/blogApi')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
   @Get('/index')
-  @UsePipes(DemoPipe)
-  getIndexArticles(@Query() query: Array<any>) {
-    return this.blogService.stringifyObject(query);
+  async getIndexArticles(): Promise<Array<IndexArticleItem>> {
+    const articles: Array<IndexArticleItem> = await this.blogService.getIndexArticleList();
+    return articles;
   }
 }
