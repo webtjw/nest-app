@@ -1,4 +1,4 @@
-import { ReturnServiceObject } from "./database.dto";
+import { DatabaseQueryResult } from "./database.dto";
 
 const mysql = require('mysql');
 
@@ -15,12 +15,16 @@ connection.connect(err => {
 });
 
 const database = {
-  sql(sql: string): Promise<ReturnServiceObject> {
+  sql(sql: string): Promise<DatabaseQueryResult> {
     return new Promise((resolve, reject) => {
-      connection.query(sql, (err, result) => {
-        if (err) reject(err || '发生了未知的错误')
-        else resolve(result)
-      })
+      try {
+        connection.query(sql, (err, result) => {
+          resolve(new DatabaseQueryResult(!err, err ? (err || '发生了未知的错误') : result))
+        })
+      } catch(e) {
+        console.log(`database.sql 发生了意料之外的错误：`);
+        console.log(e);
+      }
     })
   }
 }

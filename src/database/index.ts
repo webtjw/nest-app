@@ -1,9 +1,6 @@
-import { database } from "./intialization";
+import { database } from "./database";
+import { DatabaseQueryResult } from "./database.dto";
 
-export async function getIndexArticles(size: Number) {
-  const resu = await database.sql(`select id,title,tags,time,description,codeText from article order by time desc limit ${size}`);
-  
-  // if (err) resolve(new ReturnServiceObject(false, (err || '未知的错误发生了').toString()))
-  // else resolve(new ReturnServiceObject(true, result))
-
+export async function getIndexArticles(size: Number): Promise<DatabaseQueryResult> {
+  return database.sql(`select id,title,tags,time,description,codeText from article order by time desc limit ${size}`);
 }
