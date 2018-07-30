@@ -6,7 +6,7 @@ import { IndexArticleItem } from "./dto/ajax.dto";
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
-  @Get('/index')
+  @Get('/article/index')
   async getIndexArticles(): Promise<Array<IndexArticleItem>> {
     const articles: Array<IndexArticleItem> = await this.blogService.getIndexArticleList();
     return articles;

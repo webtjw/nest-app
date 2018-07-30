@@ -10,8 +10,6 @@ export class BlogService {
   async getIndexArticleList(): Promise<Array<IndexArticleItem>> {
     const size = indexArticleMaxNum;
     const {success, data} = await getIndexArticles(size);
-    console.log(success)
-    console.log(JSON.stringify(data))
 
     if (!success) throw new HttpException(`数据库错误: ${data}`, HttpStatus.SERVICE_UNAVAILABLE);
 
