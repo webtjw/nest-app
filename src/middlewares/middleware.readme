@@ -1,0 +1,32 @@
+1，中间件是一个在路由处理器（controllers）前就被调用的函数。虽然可以访问 req / res 对象，但只能做业务无关的处理；
+
+2，本质上还是 express 中间件，通用；
+
+3，Nest 中间件可以是一个带 @Injectable 的类（实现 NestMiddleware 接口），也可以是一个普通的函数（同 express）；
+
+class 举例：
+@Injectable()
+class LoggerMiddleware implements NestMiddleware {
+  resolve(...args: any[]): MiddlewareFunction {
+    return (req, res, next) => {
+      console.log(`Request...`);
+      next();
+    }
+  }
+}
+
+function 举例：
+function logger(req, res, next) {
+  console.log(`Request...`);
+  next();
+};
+
+4，中间件写在哪里？
+  a，局部中间件：@Module 的元数据中没有中间件选项，但我们可以在 Module 的 configure(consumer: MiddlewareConsumer) 方法中为实现某些中间件，并使用 
+  b，全局中间件：在入口文件使用 app.use
+
+5，中间件的实现相关？
+  a，consumer.apply()
+  b，consumer.apply().forRoutes()
+  c，consumer.apply().with('通过 with 传参给中间件，参数会在 class.resolve 方法中接收到').forRoutes()
+  d，异步中间件 async resolve 也返回 async 的中间件函数

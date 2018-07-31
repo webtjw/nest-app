@@ -7,7 +7,7 @@ export class LoggerMiddleware implements NestMiddleware {
       const beginTime = Date.now()
       console.log('request processing...');
       next();
-      console.log(`request processing finish after ${Date.now() - beginTime} ms`)
+      console.log(`request processing finish after ${Date.now() - beginTime} ms`);
     }
   }
 }

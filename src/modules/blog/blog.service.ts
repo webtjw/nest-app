@@ -7,7 +7,7 @@ import { getIndexArticles } from "database";
 @Injectable()
 export class BlogService {
   // 获取首页文章
-  async getIndexArticleList(): Promise<Array<IndexArticleItem>> {
+  async getIndexArticleList(): Promise<IndexArticleItem[]> {
     const size = indexArticleMaxNum;
     const {success, data} = await getIndexArticles(size);
 
