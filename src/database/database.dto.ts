@@ -1,3 +1,3 @@
 export class DatabaseQueryResult {
-  constructor(readonly success: Boolean, readonly data: Array<any> | Object | String) {}
+  constructor(readonly success: Boolean, readonly data: any[] | Object | String) {}
 }

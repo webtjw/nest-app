@@ -4,10 +4,11 @@ import { Injectable, NestMiddleware, MiddlewareFunction } from "@nestjs/common";
 export class LoggerMiddleware implements NestMiddleware {
   resolve(): MiddlewareFunction {
     return (req, res, next) => {
+      const {path, method} = req;
       const beginTime = Date.now()
-      console.log('request processing...');
+      console.log(`[${method} ${path}] [processing]`);
       next();
-      console.log(`request processing finish after ${Date.now() - beginTime} ms`);
+      console.log(`[${method} ${path}] [done by using ${Date.now() - beginTime} ms]`);
     }
   }
 }

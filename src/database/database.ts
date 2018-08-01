@@ -1,4 +1,5 @@
 import { DatabaseQueryResult } from "./database.dto";
+import { HttpException, HttpStatus } from "@nestjs/common";
 
 const mysql = require('mysql');
 
@@ -19,7 +20,7 @@ const database = {
     return new Promise((resolve, reject) => {
       try {
         connection.query(sql, (err, result) => {
-          resolve(new DatabaseQueryResult(!err, err ? (err || '发生了未知的错误') : result))
+          resolve(new DatabaseQueryResult(!err, err ? `数据库错误：${(err || '未知的错误')}` : result));
         })
       } catch(e) {
         console.log(`database.sql 发生了意料之外的错误：`);
