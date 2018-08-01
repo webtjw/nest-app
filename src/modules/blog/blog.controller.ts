@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body } from "@nestjs/common";
 import { BlogService } from "./blog.service";
 import { WebApiResponse } from "dto/common.dto";
 
@@ -16,6 +16,13 @@ export class BlogController {
   async getArticleDetail(@Param() parmas): Promise<WebApiResponse> {
     const {id} = parmas;
     const res: WebApiResponse = await this.blogService.getArticleDetail(id as Number);
+    return res;
+  }
+
+  @Post('/getArchive')
+  async getArchive(@Body() data): Promise<WebApiResponse> {
+    const {index, size} = data;
+    const res: WebApiResponse = await this.blogService.getArchive(index as number, size as number);
     return res;
   }
 }
