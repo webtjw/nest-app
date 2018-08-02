@@ -5,10 +5,8 @@ export class LoggerMiddleware implements NestMiddleware {
   resolve(): MiddlewareFunction {
     return (req, res, next) => {
       const {path, method} = req;
-      const beginTime = Date.now()
       console.log(`[${method} ${path}] [processing]`);
       next();
-      console.log(`[${method} ${path}] [done by using ${Date.now() - beginTime} ms]`);
     }
   }
 }

@@ -1,7 +1,7 @@
 export class WebApiResponse {
   constructor(
     readonly success: Boolean,
-    readonly message: String,
-    readonly data: Object | any[] | String,
+    readonly message: any,
+    readonly data: object | any[] | string,
   ) {}
 }
