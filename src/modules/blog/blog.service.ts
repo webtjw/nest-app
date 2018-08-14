@@ -98,14 +98,33 @@ export class BlogService {
         if (tagsManipulate[item]) delete tagsManipulate[item]
         else tagsManipulate[item] = -1
       })
+      this.updateTags(tagsManipulate)
       // 更新 time id 外的字段
       const editSaveResult = await database.saveEditArticle(id, title, tags.toString(), antecedent, code);
       if (editSaveResult.success) return editSaveResult.data as number;
       else throw new HttpException(new WebApiResponse(false, editSaveResult.data, null), HttpStatus.SERVICE_UNAVAILABLE);
     } else {
+      this.updateTags(tagsManipulate)
       const addResult = await database.saveNewArticle(title, tags.toString(), moment().format('YYYY-MM-DD') as string, antecedent, code);
       if (addResult.success) return addResult.data as number;
       else throw new HttpException(new WebApiResponse(false, addResult.data, null), HttpStatus.SERVICE_UNAVAILABLE);
     }
+  }
+  async updateTags (tagsManipulate) {
+      const allTagResult = await database.getAllTags()
+      if (allTagResult.success) {
+        for (let tagItem in tagsManipulate) {
+          const val = tagsManipulate[tagItem]
+          let origin = null
+          for (let searchTag of allTagResult.data as any[]) {
+            if (searchTag.name === tagItem) {
+              origin = searchTag
+              break
+            }
+          }
+          if (!origin) database.addTagItem(tagItem)
+          else database.updateTagItem(tagItem, +origin.number + val)
+        }
+      }
   }
 }
