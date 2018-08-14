@@ -34,8 +34,8 @@ const saveEditArticle = async function(id: number, title: string, tags: string, 
 }
 
 const saveNewArticle = async function(title: string, tags: string, time: string, antecedent: string, code: string) {
-  const des_decode = antecedent.replace(/'/g, '\\\'');
-  const code_decode = code.replace(/'/g, '\\\'');
+  const des_decode = antecedent.replace(/'/g, '\\\'').replace('\\', '\\\\');
+  const code_decode = code.replace(/'/g, '\\\'').replace('\\', '\\\\');
 
   const result = await database.sql(`insert into article (title,tags,time,description,codeText) values ('${title}','${tags}','${time}','${des_decode}','${code_decode}')`);
   return result.success ? new DatabaseQueryResult(true, result.data.insertId) : result;
