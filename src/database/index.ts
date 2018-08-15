@@ -26,16 +26,16 @@ const login = async function(token: string): Promise<DatabaseQueryResult> {
 }
 
 const saveEditArticle = async function(id: number, title: string, tags: string, antecedent: string, code: string): Promise<DatabaseQueryResult> {
-  const des_decode = antecedent.replace(/'/g, '\\\'').replace(/\\/g, '\\\\');
-  const code_decode = code.replace(/'/g, '\\\'').replace(/\\/g, '\\\\');
+  const des_decode = antecedent.replace(/\\/g, '\\\\').replace(/'/g, `\\'`);
+  const code_decode = code.replace(/\\/g, '\\\\').replace(/'/g, `\\'`);
 
   const result = await database.sql(`update article set title='${title}',tags='${tags}',codeText='${code_decode}',description='${des_decode}' where id=${id}`);
   return result.success ? new DatabaseQueryResult(true, id) : result;
 }
 
 const saveNewArticle = async function(title: string, tags: string, time: string, antecedent: string, code: string): Promise<DatabaseQueryResult> {
-  const des_decode = antecedent.replace(/'/g, '\\\'').replace(/\\/g, '\\\\');
-  const code_decode = code.replace(/'/g, '\\\'').replace(/\\/g, '\\\\');
+  const des_decode = antecedent.replace(/\\/g, '\\\\').replace(/'/g, `\\'`);
+  const code_decode = code.replace(/\\/g, '\\\\').replace(/'/g, `\\'`);
 
   const result = await database.sql(`insert into article (title,tags,time,description,codeText) values ('${title}','${tags}','${time}','${des_decode}','${code_decode}')`);
   return result.success ? new DatabaseQueryResult(true, result.data.insertId) : result;
