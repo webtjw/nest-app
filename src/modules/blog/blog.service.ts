@@ -67,10 +67,10 @@ export class BlogService {
     const {success, data} = await database.getArticleByTag(tag, pageIndex, defaultSize);
     if (!success) return new WebApiResponse(false, data as string, null);
     else {
-      (data as any[]).forEach(item => {
+      return new WebApiResponse(true, '', (data as any[]).filter(item => {
         item.tags = item.tags.split(',');
-      });
-      return new WebApiResponse(true, '', data);
+        return item.tags.includes(tag)
+      }));
     }
   }
   // 登录
